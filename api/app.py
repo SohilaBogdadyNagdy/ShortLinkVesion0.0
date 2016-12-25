@@ -2,8 +2,8 @@ from flask import Flask, url_for
 from  flask import jsonify , make_response
 from flask import request
 from errorhandler import *
-from validation import PostValidation
-from model import Insertion ,LIST_ALL
+from validation import PostValidation,updateReValidation
+from model import *
 import json
 app = Flask(__name__)
 app.config.from_object('config')
@@ -37,9 +37,31 @@ def CreateShortlink():
 
          return output
 
-@app.route('/shortlinks', methods=['PUT'])
-def api_Updateshortlink():
-    return 'update of shortlink '
+@app.route('/shortlinks/<string:slug>', methods=['PUT'])
+def api_Updateshortlink(slug):
+     if (request.headers.get('content-type') != 'application/json'):
+        return Non_JSON()
+     if (len(slug) == 0):
+        not_found("slug is a required")
+     else :
+         if (str (slug).isalnum() ):
+             #go to  apply validation on request body
+               output=updateReValidation(request)
+               if (type (output)== str ): #request valid and update opeation will called
+                   print ("call update method")
+                   if (output=="web"):
+                       updateWebLink(slug,request.json['web'])
+                   else :
+                       updateIosPrimaryLink(slug,request.json['ios']['fallback'])
+                   return "define succcesful"
+
+               else :
+                   print ("invalid update request")
+                   return output
+
+
+         else:
+             return bad_request("invalid slug ")
 
 
 

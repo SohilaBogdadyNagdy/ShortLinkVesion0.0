@@ -62,6 +62,11 @@ def LIST_ALL():
     return List_of_Document
 
 
+def updateWebLink(slug,newlink):
+    print ("web heere")
+
+def updateIosPrimaryLink(slug,newlink):
+    print ("ios here")
 
 
 
