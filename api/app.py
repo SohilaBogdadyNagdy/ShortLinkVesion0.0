@@ -17,8 +17,7 @@ def getShortlinks():
         storedLinks=LIST_ALL()
         if (len (storedLinks) == 0 ):
             return empty()
-        JsonLinks=json.dumps (storedLinks)
-        return (jsonify ({'shortlinks':JsonLinks}) )
+        return (jsonify ({'shortlinks':storedLinks}) )
 
 @app.route('/shortlinks', methods=['POST'])
 def CreateShortlink():

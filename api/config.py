@@ -10,5 +10,5 @@ from pymongo import MongoClient
 uri = 'mongodb://127.0.0.1:27017/ag-test-5163'
 client = MongoClient(uri)
 db = client['ag-test-5163']
-DEBUG = True
+
 

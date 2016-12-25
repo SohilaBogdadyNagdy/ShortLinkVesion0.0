@@ -58,6 +58,7 @@ def LIST_ALL():
     List_of_Document=[]
     for i in doc:
         del i['_id']
+        #print (i)
         List_of_Document.append(i)
     return List_of_Document
 
