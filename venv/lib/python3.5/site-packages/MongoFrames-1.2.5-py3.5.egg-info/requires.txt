@@ -1,0 +1,13 @@
+blinker>=1.4
+fake-factory>=0.5.9
+pymongo>=3
+
+[develop]
+pytest
+pytest-mock
+tox
+
+[test]
+pytest
+pytest-mock
+tox
