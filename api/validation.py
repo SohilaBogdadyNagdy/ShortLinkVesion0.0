@@ -63,17 +63,10 @@ def  PostValidation(myrequest):
     """
     try:
         validate (myrequest,CreateLinkschema)
-        response= jsonify({
-            "status": "successful",
-            "slug": myrequest['slug'],
-           "message": "created successfully"
-
-        })
-        response.status_code=201
-        return response
+        return True
     except :
-        print ("catch  validation eror")
-        response= bad_request("failed in validation request data")
+        print ("catch  validation exception in post request ")
+        response= not_found("failed in validation request data")
         return response
 
 iosupdateSchema ={

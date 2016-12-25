@@ -1,7 +1,8 @@
 from config import client
-from flask import request
+from flask import request ,Response
 from mongoframes import *
 from errorhandler import *
+import random , string
 #   Database: ag-test-5163
 #   User: kzynA
 #   Password: kACkB64Me
@@ -27,10 +28,17 @@ class Item(SubFrame):
         'fallback'
         }
 
+def GenerateSlug(size=6, chars=string.ascii_uppercase + string.digits):
+    """generate slug"""
+
+    return ''.join(random.choice(chars) for x in range(size))
+
+
 #buid insert , get and update  methods
 def Insertion (request):
+    newslug=GenerateSlug()
     MyNewShortLink = ShortLink (
-        slug=request.json['slug'],
+        slug=newslug,
         ios = Item(
           primary=request.json ['ios']['primary'],
           fallback=request.json['ios']['fallback']
@@ -45,11 +53,16 @@ def Insertion (request):
     try :
 
         MyNewShortLink.insert ()
-        return True
+        response = jsonify ({
+            "status": "successful",
+             "slug": MyNewShortLink.slug,
+             "message": "created successfully"})
+        response.status_code = 201
+        return response
 
     except :
         print ("failed in insertion process")
-        return False
+        return not_found ("failed in create new link")
 
 def LIST_ALL():
 

@@ -16,7 +16,7 @@ def getShortlinks():
         #get all
         storedLinks=LIST_ALL()
         if (len (storedLinks) == 0 ):
-            return empty()
+            return not_found("not found shortlink")
         return (jsonify ({'shortlinks':storedLinks}) )
 
 @app.route('/shortlinks', methods=['POST'])
@@ -25,12 +25,10 @@ def CreateShortlink():
         return Non_JSON()
     else :
          output=PostValidation(request.json)
-         if (output.status_code==201):
+         if (output==True ):
              #add new documents in db
-             InsertionFlag=Insertion(request)
-             if InsertionFlag==False :
-                 output=not_found("failed in creation")
-
+             output=Insertion(request)
+             return output
          return output
 
 @app.route('/shortlinks/<string:slug>', methods=['PUT'])
@@ -60,7 +58,9 @@ def api_Updateshortlink(slug):
          else:
              return bad_request("invalid slug ")
 
-
+@app.errorhandler(500)
+def server_error(e):
+    return jsonify({})
 
 if __name__ == '__main__':
     app.run()
