@@ -1,5 +1,12 @@
 from flask import jsonify
 from flask import Response
+def successful_opr(msg):
+    response = jsonify ({"status": "successful",
+  "message": msg })
+    response.status_code=201
+    return response
+
+
 
 def not_found(mesg):
     response = jsonify ({'status':"failed", "message":mesg})

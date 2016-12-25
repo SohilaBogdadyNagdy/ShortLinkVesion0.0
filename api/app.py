@@ -20,9 +20,6 @@ def getShortlinks():
         JsonLinks=json.dumps (storedLinks)
         return (jsonify ({'shortlinks':JsonLinks}) )
 
-
-
-
 @app.route('/shortlinks', methods=['POST'])
 def CreateShortlink():
     if ( not request.json):
@@ -50,10 +47,11 @@ def api_Updateshortlink(slug):
                if (type (output)== str ): #request valid and update opeation will called
                    print ("call update method")
                    if (output=="web"):
-                       updateWebLink(slug,request.json['web'])
+                       output= updateWebLink(slug,request.json['web'])
+                       return output
                    else :
-                       updateIosPrimaryLink(slug,request.json['ios']['fallback'])
-                   return "define succcesful"
+                       output=updateIosfallbackLink(slug,request.json['ios']['fallback'])
+                       return output
 
                else :
                    print ("invalid update request")

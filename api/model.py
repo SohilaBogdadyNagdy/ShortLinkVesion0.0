@@ -1,7 +1,7 @@
 from config import client
 from flask import request
 from mongoframes import *
-
+from errorhandler import *
 #   Database: ag-test-5163
 #   User: kzynA
 #   Password: kACkB64Me
@@ -63,10 +63,28 @@ def LIST_ALL():
 
 
 def updateWebLink(slug,newlink):
-    print ("web heere")
+    """method update just web link """
+    print ("update web link")
+    retrievedlink = ShortLink.one (Q.slug==slug)
+    #check  if there islink retrieved from db
+    if (not retrievedlink ):
+        return not_found("not found link")
+    retrievedlink.web = newlink
+    retrievedlink.update ()
+    return successful_opr("update successfuly")
 
-def updateIosPrimaryLink(slug,newlink):
-    print ("ios here")
+
+def updateIosfallbackLink(slug,newlink):
+    """for update fallback in iphone """
+    lk = ShortLink.one (Q.slug==slug)
+    if (not lk):
+        return not_found("not found link")
+    else:
+        lk.ios['fallback']=newlink
+        lk.update()
+        return successful_opr("update ios successfully")
+
+
 
 
 
