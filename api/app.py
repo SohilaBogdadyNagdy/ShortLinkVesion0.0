@@ -22,6 +22,7 @@ def getShortlinks():
         return (jsonify ({'shortlinks':storedLinks}) )
 
 @app.route('/shortlinks', methods=['POST'])
+@requires_auth
 def CreateShortlink():
     if ( not request.json):
         return Non_JSON()
@@ -34,6 +35,7 @@ def CreateShortlink():
          return output
 
 @app.route('/shortlinks/<string:slug>', methods=['PUT'])
+@requires_auth
 def api_Updateshortlink(slug):
      if (request.headers.get('content-type') != 'application/json'):
         return Non_JSON()
@@ -62,7 +64,16 @@ def api_Updateshortlink(slug):
 
 @app.errorhandler(500)
 def server_error(e):
+    #for internal server error exception
     return jsonify({})
+@app.errorhandler(404)
+def page_notfound(e):
+    """register page not found method at 404 error """
+    res=jsonify ({"status":"failed",
+                    "message":"not found"
+                    })
+    res.status_code=404
+    return res
 
 if __name__ == '__main__':
     app.run()
