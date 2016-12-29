@@ -10,7 +10,7 @@ app = Flask(__name__)
 app.config.from_object('config')
 
 @app.route('/shortlinks', methods=['get'])
-@requires_auth
+#@requires_auth
 def getShortlinks():
     if (request.headers.get('content-type') != 'application/json'):
         return Non_JSON()
