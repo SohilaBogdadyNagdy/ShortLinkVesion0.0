@@ -45,8 +45,8 @@ class ShortLinkTestCase (unittest.TestCase):
         "web": "WEB16"
         }
         myheaders= { 'Content-Type':'application/json','Authorization':'Basic YWRtaW46YWRtaW4='}
-        #myresp = self.app.post('/shortlinks',data=json.dumps (NewSH),headers=myheaders)
-        #print (myresp.data)
+        myresp = self.app.post('/shortlinks',data=json.dumps (NewSH),headers=myheaders)
+        print (myresp.data)
 
 
 
